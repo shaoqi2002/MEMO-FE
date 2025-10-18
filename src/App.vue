@@ -86,10 +86,10 @@ const newNote = ref({
   content: ''
 })
 
-// 按时间降序排列笔记
+// 按 id 降序排列笔记（新的在上）
 const sortedNotes = computed(() => {
   return [...notes.value].sort((a, b) => {
-    return new Date(b.time) - new Date(a.time)
+    return b.id - a.id
   })
 })
 
@@ -134,10 +134,7 @@ onMounted(() => {
   const year = now.getFullYear()
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
-  const hours = String(now.getHours()).padStart(2, '0')
-  const minutes = String(now.getMinutes()).padStart(2, '0')
-  const seconds = String(now.getSeconds()).padStart(2, '0')
-  newNote.value.time = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  newNote.value.time = `${year}-${month}-${day}`
 })
 </script>
 
