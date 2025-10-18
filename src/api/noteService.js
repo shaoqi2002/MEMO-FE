@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'https://memo-be.up.railway.app/api'
+const API_BASE_URL = 'https://memoria-be.up.railway.app/api'
 
 // 获取所有笔记
 export const getNotes = async () => {
