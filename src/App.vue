@@ -100,9 +100,14 @@ const loadNotes = async () => {
 const handleAddNote = async () => {
   isSubmitting.value = true
   try {
-    // 自动生成当前时间（ISO 8601 格式）
+    // 生成本地时区的时间字符串（东八区）
     const now = new Date()
-    const timeString = now.toISOString()
+    // 获取本地时间偏移（分钟）
+    const offset = now.getTimezoneOffset()
+    // 调整为本地时间
+    const localTime = new Date(now.getTime() - offset * 60 * 1000)
+    // 转为 ISO 格式但保留本地时间
+    const timeString = localTime.toISOString().slice(0, -1)
     
     await addNote(timeString, newNote.value.content)
     // 清空表单
