@@ -12,16 +12,6 @@
           <h2></h2>
           <form @submit.prevent="handleAddNote" class="note-form">
             <div class="form-group">
-              <label for="time">时间</label>
-              <input
-                id="time"
-                v-model="newNote.time"
-                type="text"
-                placeholder="例如: 2025-10-18 20:00:00"
-                required
-              />
-            </div>
-            <div class="form-group">
               <label for="content">内容</label>
               <textarea
                 id="content"
@@ -82,7 +72,6 @@ const isSubmitting = ref(false)
 const error = ref(null)
 
 const newNote = ref({
-  time: '',
   content: ''
 })
 
@@ -111,10 +100,13 @@ const loadNotes = async () => {
 const handleAddNote = async () => {
   isSubmitting.value = true
   try {
-    await addNote(newNote.value.time, newNote.value.content)
+    // 自动生成当前时间（ISO 8601 格式）
+    const now = new Date()
+    const timeString = now.toISOString()
+    
+    await addNote(timeString, newNote.value.content)
     // 清空表单
     newNote.value = {
-      time: '',
       content: ''
     }
     // 重新加载笔记列表
@@ -129,12 +121,6 @@ const handleAddNote = async () => {
 // 组件挂载时加载笔记
 onMounted(() => {
   loadNotes()
-  // 自动填充当前时间
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  newNote.value.time = `${year}-${month}-${day}`
 })
 </script>
 
